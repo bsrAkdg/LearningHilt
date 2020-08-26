@@ -32,7 +32,7 @@ class SomeClass
 @Inject
 constructor(
     // private val someDependency: SomeDependency
-    private val someInterfaceImpl: SomeInterfaceImpl // for testing
+    private val someInterfaceImpl: SomeInterface // for testing
 ) {
     fun doAThing(): String {
         // return "Look ${someDependency.getAThing()}"
