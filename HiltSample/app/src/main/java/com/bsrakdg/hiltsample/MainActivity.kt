@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
 @AndroidEntryPoint // be able to have dependencies inject in
@@ -29,14 +28,38 @@ class MyFragment : Fragment() {
     lateinit var someClass: SomeClass
 }
 
-@ActivityScoped // as long as activity alive
 class SomeClass
 @Inject
 constructor(
+    // private val someDependency: SomeDependency
+    private val someInterfaceImpl: SomeInterfaceImpl // for testing
 ) {
     fun doAThing(): String {
-        return "Look I did a thing!"
+        // return "Look ${someDependency.getAThing()}"
+        return "Look ${someInterfaceImpl.getAThing()}"
     }
 
 }
 
+class SomeDependency
+@Inject
+constructor(
+) {
+    fun getAThing(): String {
+        return "a thing!"
+    }
+
+}
+
+class SomeInterfaceImpl
+@Inject
+constructor(
+) : SomeInterface {
+    override fun getAThing(): String {
+        return "a thing!"
+    }
+}
+
+interface SomeInterface {
+    fun getAThing(): String
+}
