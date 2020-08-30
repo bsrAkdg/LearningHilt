@@ -19,3 +19,41 @@
     2. Constructor injection for Third party library instance
 
 
+** There are two options solving this problem : @Binds and @Provides
+
+   - @Binds :
+
+        @InstallIn(ActivityComponent::class) // You can change Activity, Fragment, vs component
+        @Module
+        abstract class MyModule {
+
+            @ActivityScoped // When you used ApplicationComponent, you should use @Singleton (ActivityComponent -> @ActivityScoped)
+            @Binds // simple way for interface constructor injection problem solution
+            abstract fun bindSomeDependency(
+                someImpl: SomeInterfaceImpl
+            ): SomeInterface
+
+            @ActivityScoped
+            @Binds
+            abstract fun bindGson(gson: Gson): Gson
+        }
+
+    - @Provides : // better way
+
+        @InstallIn(ApplicationComponent::class) // You can change Activity, Fragment, vs component
+        @Module
+        class MyModule {
+            @Singleton
+            @Provides
+            fun provideSomeString(): String {
+                return "some string"
+            }
+
+            @Singleton
+            @Provides
+            fun provideSomeInterface(
+                someString: String
+            ): SomeInterface {
+                return SomeInterfaceImpl(someString)
+            }
+        }
