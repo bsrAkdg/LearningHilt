@@ -57,3 +57,13 @@
                 return SomeInterfaceImpl(someString)
             }
         }
+
+** Providing instances of the same type with HILT :
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class Impl1
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class Impl2
